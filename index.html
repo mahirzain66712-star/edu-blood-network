@@ -496,7 +496,7 @@ $("#reg-form").addEventListener("submit", (e) => {
   const p = { name: clean(f.get("fullname")), hide: f.has("hide"), dept: clean(f.get("dept")), group: f.get("group"), phone: digits(f.get("phone")), last: String(f.get("last") || ""), available: f.has("available") };
   const email = clean(f.get("email")).toLowerCase();
   if (p.name.length < 2) return say(msg, "Enter your full name. You can hide it from the public list.", true);
-  if (!EDU.test(email)) return say(msg, "Use your university address, such as 242022312@eastdelta.edu.bd.", true);
+  if (!EDU.test(email)) return say(msg, "Use your university address, such as ********@eastdelta.edu.bd.", true);
   if (!GROUPS.includes(p.group)) return say(msg, "Choose your blood group.", true);
   if (!validPhone(p.phone)) return say(msg, "Enter a valid mobile number, such as 01XXXXXXXXX.", true);
   sendCode(email, $("#reg-otp"), msg, (uid) => saveDonor(uid, p));
