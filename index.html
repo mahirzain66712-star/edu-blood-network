@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>EDU Blood Network | East Delta University</title>
+<meta name="description" content="Find blood donors at East Delta University, register as a donor with a verified university email, or post an urgent blood request.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{--page:#EEF1F3;--surface:#FFFFFF;--ink:#161A1F;--muted:#55606B;--line:#CDD5DC;--edge:#7D8894;--blood:#A8102A;--blood-deep:#7E0B1F;--tint:#F8E4E8;--on-blood:#FFFFFF;--ok:#1D6B3B;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#0F1316;--surface:#171D22;--ink:#EDF1F4;--muted:#A4AEB8;--line:#2C353E;--edge:#6E7A85;--blood:#B81D36;--blood-deep:#D3405A;--tint:#34171D;--ok:#7FD39E;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#0F1316;--surface:#171D22;--ink:#EDF1F4;--muted:#A4AEB8;--line:#2C353E;--edge:#6E7A85;--blood:#B81D36;--blood-deep:#D3405A;--tint:#34171D;--ok:#7FD39E;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:12px;scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font:400 1.0625rem/1.6 Archivo,"Helvetica Neue",Arial,sans-serif}
+h1,h2,h3{font-weight:800;font-stretch:80%;line-height:1.02;margin:0 0 .6em}
+h1{font-size:clamp(2.6rem,6.4vw,4.9rem);line-height:.94;letter-spacing:-.01em}
+h2{font-size:clamp(2rem,4.2vw,2.8rem)}
+h3{font-size:1.35rem;font-stretch:88%;margin-top:1.8em}
+p{margin:0 0 1em;max-width:62ch}
+a{color:var(--blood)}
+:focus-visible{outline:3px solid var(--blood);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.site-head{background:var(--surface);border-bottom:1px solid var(--line)}
+.site-head .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:800;font-stretch:80%;font-size:1.3rem}
+.brand svg{color:var(--blood);flex:none}
+nav ul{display:flex;flex-wrap:wrap;gap:4px 20px;list-style:none;margin:0;padding:0}
+nav a{color:var(--ink);text-decoration:none;font-weight:500}
+nav a:hover{color:var(--blood);text-decoration:underline;text-underline-offset:4px}
+.hero{padding:64px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start;margin-bottom:36px}
+.lede{font-size:1.15rem;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border:2px solid var(--blood);background:var(--blood);color:var(--on-blood);font:inherit;font-weight:700;text-decoration:none;cursor:pointer;border-radius:2px}
+.btn:hover{background:var(--blood-deep);border-color:var(--blood-deep)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost:hover{background:transparent;color:var(--blood);border-color:var(--blood)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.board-h{font-size:1.3rem;font-stretch:85%;margin-bottom:12px}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{display:block;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-top:6px solid var(--blood);padding:14px 12px;text-align:left;font:inherit;cursor:pointer;border-radius:0}
+.tile:hover{border-color:var(--ink);border-top-color:var(--blood)}
+.tile .g{display:block;font-size:2.2rem;font-weight:800;font-stretch:72%;line-height:1}
+.tile .n{display:block;margin-top:8px;font-size:.9rem;color:var(--muted)}
+.hint{font-size:.92rem;color:var(--muted);margin-top:12px}
+.alert{padding:16px 18px;background:var(--tint);border-left:6px solid var(--blood)}
+.alert p{margin:0}
+.notice{margin:18px 0 0;font-weight:600;color:var(--blood)}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.controls{display:grid;grid-template-columns:200px 1fr auto;gap:14px;align-items:end;margin:28px 0 12px}
+.inline{display:flex;flex-wrap:wrap;gap:12px;max-width:680px;margin-top:8px}
+.inline input{flex:1 1 240px}
+.inline .btn{flex:0 0 auto}
+.otp{margin-top:24px}
+label{display:block;font-weight:600;font-size:.95rem;margin-bottom:6px}
+input,select,textarea{width:100%;min-height:48px;padding:.7rem .8rem;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--edge);border-radius:2px}
+input[type=checkbox]{width:20px;min-height:20px;margin:4px 0 0;flex:none;accent-color:var(--blood)}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin:0 0 12px}
+.count{font-weight:600;margin:0 0 10px}
+.grid-form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;margin-top:28px}
+.full{grid-column:1/-1}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{font-weight:600;font-size:.95rem;margin-bottom:6px;padding:0}
+.picks{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.pick{position:relative;display:block;margin:0}
+.pick input{position:absolute;opacity:0;width:1px;height:1px;min-height:0;margin:0;padding:0;pointer-events:none}
+.pick span{display:grid;place-items:center;min-height:52px;background:var(--surface);border:1px solid var(--edge);font-weight:800;font-stretch:75%;font-size:1.25rem;cursor:pointer}
+.pick input:checked+span{background:var(--blood);border-color:var(--blood);color:var(--on-blood)}
+.pick input:focus-visible+span{outline:3px solid var(--blood);outline-offset:2px}
+.msg{margin:0;min-height:1.4em;font-weight:600}
+.err{color:var(--blood)}
+.ok{color:var(--ok)}
+.list{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.row{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.badge{display:grid;place-items:center;min-height:52px;background:var(--blood);color:var(--on-blood);font-weight:800;font-stretch:72%;font-size:1.5rem}
+.who strong{display:block;font-size:1.08rem}
+.who span{display:block;color:var(--muted);font-size:.95rem}
+.who .on{color:var(--ok);font-weight:600}
+.call{white-space:nowrap;color:var(--ink);font-weight:700;border:2px solid var(--ink);padding:9px 14px;text-decoration:none;border-radius:2px}
+.call:hover{color:var(--blood);border-color:var(--blood)}
+.empty{padding:24px 0;color:var(--muted)}
+.safety{margin-top:18px;font-size:.92rem;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.plain{list-style:none;margin:0 0 1em;padding:0}
+.plain li{padding:8px 0;border-bottom:1px solid var(--line)}
+.steps{list-style:none;counter-reset:s;margin:0;padding:0}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s);font-weight:800;font-stretch:72%;font-size:1.9rem;line-height:1;color:var(--blood)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{border-bottom:2px solid var(--ink)}
+td:first-child{font-weight:800;font-stretch:75%;font-size:1.25rem}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.foot{padding:36px 0 56px;color:var(--muted);font-size:.92rem}
+.foot p{margin:0}
+@media (max-width:860px){.hero-grid,.two,.contact-grid{grid-template-columns:1fr}.controls,.grid-form{grid-template-columns:1fr}.board{grid-template-columns:repeat(2,1fr)}.picks{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:520px){.row{grid-template-columns:56px 1fr}.call{grid-column:1/-1;text-align:center}.badge{min-height:44px;font-size:1.25rem}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5C8.6 7.4 5.5 10.9 5.5 15.2a6.5 6.5 0 0 0 13 0c0-4.3-3.1-7.8-6.5-12.7z"/></svg>EDU Blood Network</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#find">Find a donor</a></li>
+        <li><a href="#register">Become a donor</a></li>
+        <li><a href="#request">Request blood</a></li>
+        <li><a href="#guide">Before donating</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Find a blood donor from our own campus.</h1>
+        <p class="lede">East Delta University students, teachers and staff who are ready to give blood. Search by blood group and call a donor directly. No sign-in is needed to search.</p>
+        <div class="actions">
+          <a class="btn" href="#find">Find a donor</a>
+          <a class="btn ghost" href="#register">Become a donor</a>
+        </div>
+      </div>
+      <div>
+        <h2 class="board-h">Donors available by blood group</h2>
+        <div class="board" id="board"></div>
+        <p class="hint">Tap a blood group to see its donors.</p>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="alert">
+        <p>Need blood right now? Contact the hospital’s blood bank first. Donors listed here can help, but they may need time to reach you. To ask for blood, <a href="#request">post an urgent request</a>.</p>
+      </div>
+      <p class="notice" id="notice" role="status" hidden></p>
+    </div>
+  </div>
+
+  <section id="find">
+    <div class="wrap">
+      <h2>Find a donor</h2>
+      <p class="lede">Anyone can search. Choose a blood group, then confirm with the donor before you travel to the hospital.</p>
+      <div class="controls">
+        <div>
+          <label for="f-group">Blood group</label>
+          <select id="f-group"><option value="">All blood groups</option></select>
+        </div>
+        <div>
+          <label for="f-q">Name or department</label>
+          <input id="f-q" type="search" placeholder="Search by name or department" autocomplete="off">
+        </div>
+        <label class="check"><input id="f-avail" type="checkbox" checked> Available now only</label>
+      </div>
+      <p class="count" id="donor-count" aria-live="polite"></p>
+      <ul class="list" id="donor-list"></ul>
+      <p class="empty" id="donor-empty" hidden></p>
+      <p class="safety">Donors report their own blood group. Blood banks test donated blood before use, but still ask the hospital to confirm the group before any transfusion.</p>
+    </div>
+  </section>
+
+  <section id="register">
+    <div class="wrap">
+      <h2>Become a donor</h2>
+      <p class="lede">Anyone with a university email can register, including teachers and staff. We send a 6-digit code to that address, and your registration is saved only after you enter it. Your email is never shown on this site.</p>
+      <form class="grid-form" id="reg-form">
+        <div>
+          <label for="fullname">Full name</label>
+          <input id="fullname" name="fullname" required maxlength="80" autocomplete="name">
+        </div>
+        <div>
+          <label for="email">University email</label>
+          <input id="email" name="email" type="email" required maxlength="120" placeholder="name@eastdelta.edu.bd" autocomplete="email">
+        </div>
+        <div>
+          <label for="dept">Department or office</label>
+          <input id="dept" name="dept" required maxlength="80" placeholder="For example, Computer Science and Engineering">
+        </div>
+        <div>
+          <label for="phone">Mobile number</label>
+          <input id="phone" name="phone" type="tel" required inputmode="tel" placeholder="01XXXXXXXXX">
+        </div>
+        <fieldset class="full">
+          <legend>Blood group</legend>
+          <div class="picks" id="reg-picks"></div>
+        </fieldset>
+        <div>
+          <label for="last">Last donation date (optional)</label>
+          <input id="last" name="last" type="date">
+        </div>
+        <div class="full">
+          <label class="check"><input name="hide" type="checkbox"> Hide my name in the public list. Your department, phone number and blood group stay visible.</label>
+          <label class="check"><input name="available" type="checkbox" checked> I can donate now</label>
+          <label class="check"><input name="consent" type="checkbox" required> I agree that my department, blood group and phone number can be shown publicly, and that I may get email alerts when someone needs my blood group.</label>
+        </div>
+        <div class="full actions">
+          <button class="btn" type="submit">Send verification code</button>
+        </div>
+        <p class="msg full" id="reg-msg" role="status"></p>
+      </form>
+      <form class="otp" id="reg-otp" hidden>
+        <label for="reg-code">6-digit code from your email</label>
+        <div class="inline">
+          <input id="reg-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required>
+          <button class="btn" type="submit">Confirm and register</button>
+        </div>
+      </form>
+      <h3>Remove my registration</h3>
+      <form class="inline" id="rm-form">
+        <input id="rm-email" type="email" required placeholder="name@eastdelta.edu.bd" aria-label="University email">
+        <button class="btn ghost" type="submit">Send code</button>
+      </form>
+      <form class="otp" id="rm-otp" hidden>
+        <label for="rm-code">6-digit code from your email</label>
+        <div class="inline">
+          <input id="rm-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required>
+          <button class="btn" type="submit">Confirm and remove</button>
+        </div>
+      </form>
+      <p class="msg" id="rm-msg" role="status"></p>
+    </div>
+  </section>
+
+  <section id="request">
+    <div class="wrap">
+      <h2>Request blood</h2>
+      <p class="lede">Anyone can post a request. No account or code is needed. Every registered donor with that blood group who is available gets an email with your request. Requests stop showing after the needed-by date.</p>
+      <form class="grid-form" id="req-form">
+        <div>
+          <label for="patient">Patient name</label>
+          <input id="patient" name="patient" required maxlength="80">
+        </div>
+        <div>
+          <label for="units">Units needed</label>
+          <input id="units" name="units" type="number" min="1" max="10" value="1" required>
+        </div>
+        <fieldset class="full">
+          <legend>Blood group needed</legend>
+          <div class="picks" id="req-picks"></div>
+        </fieldset>
+        <div class="full">
+          <label for="hospital">Hospital and ward</label>
+          <input id="hospital" name="hospital" required maxlength="120">
+        </div>
+        <div>
+          <label for="needed">Needed by</label>
+          <input id="needed" name="needed" type="date" required>
+        </div>
+        <div>
+          <label for="contact">Contact person</label>
+          <input id="contact" name="contact" required maxlength="80">
+        </div>
+        <div>
+          <label for="cphone">Contact mobile number</label>
+          <input id="cphone" name="cphone" type="tel" required inputmode="tel" placeholder="01XXXXXXXXX">
+        </div>
+        <input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <div class="full">
+          <label for="notes">Notes (optional)</label>
+          <textarea id="notes" name="notes" rows="3" maxlength="300" placeholder="Time, blood bank contact or other details"></textarea>
+        </div>
+        <div class="full actions">
+          <button class="btn" type="submit">Post request and alert donors</button>
+        </div>
+        <p class="msg full" id="req-msg" role="status"></p>
+      </form>
+      <h3>Open requests</h3>
+      <ul class="list" id="req-list"></ul>
+      <p class="empty" id="req-empty" hidden></p>
+    </div>
+  </section>
+
+  <section id="guide">
+    <div class="wrap">
+      <h2>Before you donate</h2>
+      <div class="two">
+        <div>
+          <h3>Who can donate</h3>
+          <ul class="plain">
+            <li>Aged between 18 and 60.</li>
+            <li>Weighing at least 50 kg (about 110 lb).</li>
+            <li>Feeling well on the day, with no fever, cold or infection.</li>
+            <li>At least 3 months since the last donation for men, or 4 months for women.</li>
+            <li>Tell the staff about recent surgery, tattoos, piercings, vaccinations or medicines. They make the final decision.</li>
+          </ul>
+          <p>Eat a proper meal and drink plenty of water before you donate. Avoid alcohol for 24 hours before.</p>
+        </div>
+        <div>
+          <h3>What happens at the donation</h3>
+          <ol class="steps">
+            <li>Register and bring your university or national ID card.</li>
+            <li>A quick health check covers weight, pulse, blood pressure and a haemoglobin test.</li>
+            <li>The donation itself takes about 10 minutes.</li>
+            <li>Rest for 10 to 15 minutes, then have a snack and a drink.</li>
+            <li>For the rest of the day, avoid heavy lifting and hard exercise, and keep the bandage on for a few hours.</li>
+          </ol>
+        </div>
+      </div>
+      <h3>Blood group compatibility</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Blood group</th><th>Can receive from</th><th>Can donate to</th></tr></thead>
+          <tbody>
+            <tr><td>A+</td><td>A+, A−, O+, O−</td><td>A+, AB+</td></tr>
+            <tr><td>A−</td><td>A−, O−</td><td>A+, A−, AB+, AB−</td></tr>
+            <tr><td>B+</td><td>B+, B−, O+, O−</td><td>B+, AB+</td></tr>
+            <tr><td>B−</td><td>B−, O−</td><td>B+, B−, AB+, AB−</td></tr>
+            <tr><td>AB+</td><td>All groups</td><td>AB+ only</td></tr>
+            <tr><td>AB−</td><td>A−, B−, AB−, O−</td><td>AB+, AB−</td></tr>
+            <tr><td>O+</td><td>O+, O−</td><td>A+, B+, AB+, O+</td></tr>
+            <tr><td>O−</td><td>O− only</td><td>All groups</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="safety">This table covers red blood cells only. Hospital staff make the final match.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap contact-grid">
+      <div>
+        <h2>Contact</h2>
+        <p>East Delta University<br>Abdullah Al Noman Road, Noman Society, East Nasirabad, Khulshi, Chattogram 4209</p>
+        <p>For a blood emergency, call the hospital’s blood bank first. The phone numbers here are the university’s general lines.</p>
+      </div>
+      <div>
+        <h3>University phone lines</h3>
+        <ul class="plain">
+          <li><a href="tel:+8801311104531">+88 01311 10 45 31</a></li>
+          <li><a href="tel:+8801311104532">+88 01311 10 45 32</a></li>
+          <li><a href="tel:+8801311104534">+88 01311 10 45 34</a></li>
+          <li><a href="tel:+8801311104537">+88 01311 10 45 37</a></li>
+          <li><a href="tel:+8809638144413">+88 0963 81444 13</a></li>
+        </ul>
+        <h3>Email and website</h3>
+        <p><a href="mailto:enquiry@eastdelta.edu.bd">enquiry@eastdelta.edu.bd</a><br><a href="https://www.eastdelta.edu.bd/">www.eastdelta.edu.bd</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>EDU Blood Network helps the East Delta University community find blood donors. It does not replace a hospital or licensed blood bank. Donors’ email addresses are never shown on this site.</p>
+  </div>
+</footer>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+/* Setup step 1: paste your Supabase Project URL and anon public key here. */
+const SUPABASE_URL = "PASTE-PROJECT-URL";
+const SUPABASE_ANON_KEY = "PASTE-ANON-PUBLIC-KEY";
+
+const CONFIGURED = !SUPABASE_URL.startsWith("PASTE");
+const sb = CONFIGURED ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false } }) : null;
+const GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+const EDU = /^[^\s@]+@eastdelta\.edu\.bd$/i;
+
+const $ = (s) => document.querySelector(s);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const label = (g) => String(g).replace("-", "\u2212");
+const today = () => { const d = new Date(); return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, "0"), String(d.getDate()).padStart(2, "0")].join("-"); };
+const fmt = (iso) => { const t = new Date(iso + "T00:00:00"); return isNaN(t) ? "" : t.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); };
+const tel = (p) => "tel:" + String(p || "").replace(/[^\d+]/g, "");
+const clean = (v) => String(v ?? "").trim().replace(/\s+/g, " ").slice(0, 200);
+const digits = (v) => String(v ?? "").replace(/[\s-]/g, "");
+const validPhone = (p) => /^(\+?880|0)?1[3-9]\d{8}$/.test(p);
+const say = (el, text, bad) => { el.textContent = text; el.classList.toggle("err", !!bad); el.classList.toggle("ok", !bad); };
+const setEmpty = (el, text) => { el.textContent = text; el.hidden = !text; };
+const picks = (name) => GROUPS.map((g) => `<label class="pick"><input type="radio" name="${name}" value="${g}" required><span>${label(g)}</span></label>`).join("");
+const fail = (e) => {
+  const m = String(e?.message || "").toLowerCase();
+  if (m.includes("rate") || m.includes("too many")) return "Too many codes requested. Wait a few minutes and try again.";
+  if (m.includes("token")) return "That code is wrong or has expired. Request a new code.";
+  if (m.includes("row-level")) return "Only verified university accounts can do that.";
+  return "Something went wrong. Please try again.";
+};
+
+let pending = null, donors = [], requests = [];
+
+function renderBoard() {
+  $("#board").innerHTML = GROUPS.map((g) => {
+    const n = donors.filter((d) => d.blood_group === g && d.available).length;
+    return `<button class="tile" type="button" data-group="${g}"><span class="g">${label(g)}</span><span class="n">${n} available</span></button>`;
+  }).join("");
+}
+
+function renderDonors() {
+  const g = $("#f-group").value, q = $("#f-q").value.trim().toLowerCase(), only = $("#f-avail").checked;
+  const list = donors
+    .filter((d) => (!g || d.blood_group === g) && (!only || d.available) && (!q || `${d.public_name || ""} ${d.dept}`.toLowerCase().includes(q)))
+    .sort((a, b) => Number(b.available) - Number(a.available) || String(a.public_name || "~").localeCompare(String(b.public_name || "~")));
+  $("#donor-count").textContent = `${list.length} donor${list.length === 1 ? "" : "s"} found`;
+  $("#donor-list").innerHTML = list.map((d) => `<li class="row"><span class="badge">${label(esc(d.blood_group))}</span><div class="who"><strong>${d.public_name ? esc(d.public_name) : "Name hidden"}</strong><span>${esc(d.dept)}</span><span class="${d.available ? "on" : ""}">${d.available ? "Available now" : "Not available now"}</span>${d.last_donated ? `<span>Last donated ${fmt(d.last_donated)}</span>` : ""}</div><a class="call" href="${tel(d.phone)}">Call ${esc(d.phone)}</a></li>`).join("");
+  setEmpty($("#donor-empty"), !donors.length ? "No donors have registered yet. Be the first to join below." : !list.length ? "No donors match these filters. Try another blood group or clear the search." : "");
+}
+
+function renderRequests() {
+  const t = today();
+  const list = requests.filter((r) => r.needed_by >= t).sort((a, b) => a.needed_by.localeCompare(b.needed_by));
+  $("#req-list").innerHTML = list.map((r) => `<li class="row"><span class="badge">${label(esc(r.blood_group))}</span><div class="who"><strong>${esc(r.units)} unit${r.units == 1 ? "" : "s"} for ${esc(r.patient)}</strong><span>${esc(r.hospital)}, needed by ${fmt(r.needed_by)}</span>${r.notes ? `<span>${esc(r.notes)}</span>` : ""}</div><a class="call" href="${tel(r.contact_phone)}">Call ${esc(r.contact_name)}</a></li>`).join("");
+  setEmpty($("#req-empty"), list.length ? "" : "No open requests right now.");
+}
+
+async function load() {
+  const [d, r] = await Promise.all([
+    sb.from("donors").select("id, public_name, dept, blood_group, phone, available, last_donated"),
+    sb.from("blood_requests").select("id, patient, blood_group, units, hospital, needed_by, contact_name, contact_phone, notes")
+  ]);
+  setEmpty($("#notice"), d.error || r.error ? "Could not load the lists. Reload the page to try again." : "");
+  donors = d.data || [];
+  requests = r.data || [];
+  renderBoard();
+  renderDonors();
+  renderRequests();
+}
+
+async function sendCode(email, form, msg, run) {
+  pending = { email, run, form, msg };
+  const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+  if (error) return say(msg, fail(error), true);
+  const input = form.querySelector("input");
+  input.value = "";
+  form.hidden = false;
+  input.focus();
+  say(msg, `We sent a 6-digit code to ${email}. Check your spam folder if it doesn’t arrive.`, false);
+}
+
+async function confirmCode(e) {
+  e.preventDefault();
+  if (!pending) return;
+  const { email, run, form, msg } = pending;
+  const token = form.querySelector("input").value.trim();
+  const { data, error } = await sb.auth.verifyOtp({ email, token, type: "email" });
+  if (error) return say(msg, fail(error), true);
+  try {
+    await run(data.user.id);
+  } catch (err) {
+    say(msg, fail(err), true);
+  } finally {
+    await sb.auth.signOut();
+    pending = null;
+    form.hidden = true;
+  }
+}
+
+async function saveDonor(uid, p) {
+  const { error: e1 } = await sb.from("donors").upsert({ id: uid, public_name: p.hide ? null : p.name, dept: p.dept, blood_group: p.group, phone: p.phone, available: p.available, last_donated: p.last || null, updated_at: new Date().toISOString() });
+  if (e1) throw e1;
+  const { error: e2 } = await sb.from("donor_private").upsert({ id: uid, full_name: p.name });
+  if (e2) throw e2;
+  say($("#reg-msg"), "Registration complete. Thank you for donating.", false);
+  load();
+}
+
+async function postRequest(p) {
+  const msg = $("#req-msg");
+  say(msg, "Posting your request…", false);
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/post-request`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+      body: JSON.stringify(p)
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) return say(msg, out.error || "Could not post the request. Try again.", true);
+    say(msg, out.notified ? `Request posted. ${out.notified} matching donor${out.notified === 1 ? " was" : "s were"} emailed.` : "Request posted. No available donors with this blood group are registered yet, so please also call the hospital’s blood bank.", false);
+    $("#req-form").reset();
+    load();
+  } catch (err) {
+    say(msg, "Could not reach the server. Check your connection and try again.", true);
+  }
+}
+
+async function removeDonor(uid) {
+  const { error: e1 } = await sb.from("donors").delete().eq("id", uid);
+  if (e1) throw e1;
+  const { error: e2 } = await sb.from("donor_private").delete().eq("id", uid);
+  if (e2) throw e2;
+  say($("#rm-msg"), "Your registration has been removed.", false);
+  load();
+}
+
+$("#reg-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const f = new FormData(e.currentTarget), msg = $("#reg-msg");
+  const p = { name: clean(f.get("fullname")), hide: f.has("hide"), dept: clean(f.get("dept")), group: f.get("group"), phone: digits(f.get("phone")), last: String(f.get("last") || ""), available: f.has("available") };
+  const email = clean(f.get("email")).toLowerCase();
+  if (p.name.length < 2) return say(msg, "Enter your full name. You can hide it from the public list.", true);
+  if (!EDU.test(email)) return say(msg, "Use your university address, such as 242022312@eastdelta.edu.bd.", true);
+  if (!GROUPS.includes(p.group)) return say(msg, "Choose your blood group.", true);
+  if (!validPhone(p.phone)) return say(msg, "Enter a valid mobile number, such as 01XXXXXXXXX.", true);
+  sendCode(email, $("#reg-otp"), msg, (uid) => saveDonor(uid, p));
+});
+
+$("#req-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const f = new FormData(e.currentTarget), msg = $("#req-msg");
+  const p = { patient: clean(f.get("patient")), group: f.get("group"), units: Math.min(10, Math.max(1, parseInt(f.get("units"), 10) || 1)), hospital: clean(f.get("hospital")), needed_by: String(f.get("needed") || ""), contact_name: clean(f.get("contact")), contact_phone: digits(f.get("cphone")), notes: clean(f.get("notes")).slice(0, 300), website: String(f.get("website") || "") };
+  if (!GROUPS.includes(p.group)) return say(msg, "Choose the blood group needed.", true);
+  if (!p.needed_by || p.needed_by < today()) return say(msg, "Choose a needed-by date from today onward.", true);
+  if (!validPhone(p.contact_phone)) return say(msg, "Enter a valid contact mobile number, such as 01XXXXXXXXX.", true);
+  postRequest(p);
+});
+
+$("#rm-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = clean($("#rm-email").value).toLowerCase();
+  if (!EDU.test(email)) return say($("#rm-msg"), "Use your university address, such as 242022312@eastdelta.edu.bd.", true);
+  sendCode(email, $("#rm-otp"), $("#rm-msg"), removeDonor);
+});
+
+$("#reg-otp").addEventListener("submit", confirmCode);
+$("#rm-otp").addEventListener("submit", confirmCode);
+
+$("#f-group").addEventListener("change", renderDonors);
+$("#f-avail").addEventListener("change", renderDonors);
+$("#f-q").addEventListener("input", renderDonors);
+$("#board").addEventListener("click", (e) => {
+  const t = e.target.closest("[data-group]");
+  if (!t) return;
+  $("#f-group").value = t.dataset.group;
+  renderDonors();
+  $("#find").scrollIntoView();
+});
+
+$("#f-group").insertAdjacentHTML("beforeend", GROUPS.map((g) => `<option value="${g}">${label(g)}</option>`).join(""));
+$("#reg-picks").innerHTML = picks("group");
+$("#req-picks").innerHTML = picks("group");
+$("#needed").min = today();
+renderBoard();
+
+if (CONFIGURED) {
+  load();
+} else {
+  setEmpty($("#notice"), "Setup needed: paste your Supabase settings at the top of index.html. See the setup guide.");
+  document.querySelectorAll("form input, form button").forEach((el) => { el.disabled = true; });
+}
+</script>
+</body>
+</html>
