@@ -357,8 +357,8 @@ td:first-child{font-weight:800;font-stretch:75%;font-size:1.25rem}
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 /* Setup step 1: paste your Supabase Project URL and anon public key here. */
-const SUPABASE_URL = "PASTE-PROJECT-URL";
-const SUPABASE_ANON_KEY = "PASTE-ANON-PUBLIC-KEY";
+const SUPABASE_URL = "https://oabutxtsycymfgvgvbyb.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hYnV0eHRzeWN5bWZndmd2YnliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5NDE1NDcsImV4cCI6MjEwODUxNzU0N30.64MLRWgZM0pehj6QVC7KMT9WB1g17QWq-92PUXQFl88";
 
 const CONFIGURED = !SUPABASE_URL.startsWith("PASTE");
 const sb = CONFIGURED ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false } }) : null;
